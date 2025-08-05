@@ -976,9 +976,18 @@ class TrinaSmoothScrollableState extends State<Scrollable>
             _accumulatedTargetOffset.clamp(minScrollExtent, maxScrollExtent);
         final double difference = _accumulatedTargetOffset - currentOffset;
 
+        void tryJumpTo(double value) {
+          try {
+            position.jumpTo(value);
+          } on Object {
+            // The widget might have been disposed.
+            timer.cancel();
+          }
+        }
+
         // If we're close enough to the target, snap to it.
         if (difference.abs() < 1.0) {
-          position.jumpTo(_accumulatedTargetOffset);
+          tryJumpTo(_accumulatedTargetOffset);
           timer.cancel();
           _pointerScrollTimer = null;
         } else {
@@ -986,7 +995,7 @@ class TrinaSmoothScrollableState extends State<Scrollable>
           final double increment = difference * 0.1;
           double newOffset = currentOffset + increment;
           newOffset = newOffset.clamp(minScrollExtent, maxScrollExtent);
-          position.jumpTo(newOffset);
+          tryJumpTo(newOffset);
         }
       });
     }
