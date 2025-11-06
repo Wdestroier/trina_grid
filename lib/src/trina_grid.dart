@@ -750,6 +750,17 @@ class TrinaGridState extends TrinaStateWithChange<TrinaGrid> {
                         widget.initialVerticalScrollOffset,
                   ),
                 ),
+                LayoutId(
+                  id: _StackName.bodyColumns,
+                  child: TrinaBodyColumns(_stateManager),
+                ),
+
+                /// Body columns footer.
+                if (showColumnFooter)
+                  LayoutId(
+                    id: _StackName.bodyColumnFooters,
+                    child: TrinaBodyColumnsFooter(stateManager),
+                  ),
 
                 /// Left columns and rows.
                 if (showLeftFrozen) ...[
