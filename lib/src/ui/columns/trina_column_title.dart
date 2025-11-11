@@ -146,6 +146,11 @@ class TrinaColumnTitleState extends TrinaStateWithChange<TrinaColumnTitle> {
                 : style.columnResizeIcon,
             ascendingIcon: style.columnAscendingIcon,
             descendingIcon: style.columnDescendingIcon,
+            iconWidget: widget.column.enableContextMenu
+                ? style.columnContextIconWidget
+                : null,
+            ascendingIconWidget: style.columnAscendingIconWidget,
+            descendingIconWidget: style.columnDescendingIconWidget,
           ),
           iconSize: style.iconSize,
           mouseCursor: contextMenuCursor,
@@ -235,12 +240,21 @@ class TrinaGridColumnIcon extends StatelessWidget {
 
   final Icon? descendingIcon;
 
+  final Widget? iconWidget;
+
+  final Widget? ascendingIconWidget;
+
+  final Widget? descendingIconWidget;
+
   const TrinaGridColumnIcon({
     this.sort,
     this.color = Colors.black26,
     this.icon = Icons.dehaze,
     this.ascendingIcon,
     this.descendingIcon,
+    this.iconWidget,
+    this.ascendingIconWidget,
+    this.descendingIconWidget,
     super.key,
   });
 
@@ -248,18 +262,18 @@ class TrinaGridColumnIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (sort) {
       case TrinaColumnSort.ascending:
-        return ascendingIcon == null
-            ? Transform.rotate(
-                angle: 90 * pi / 90,
-                child: const Icon(Icons.sort, color: Colors.green),
-              )
-            : ascendingIcon!;
+        return ascendingIconWidget ??
+            ascendingIcon ??
+            Transform.rotate(
+              angle: 90 * pi / 90,
+              child: const Icon(Icons.sort, color: Colors.green),
+            );
       case TrinaColumnSort.descending:
-        return descendingIcon == null
-            ? const Icon(Icons.sort, color: Colors.red)
-            : descendingIcon!;
+        return descendingIconWidget ??
+            descendingIcon ??
+            const Icon(Icons.sort, color: Colors.red);
       default:
-        return Icon(icon, color: color);
+        return iconWidget ?? Icon(icon, color: color);
     }
   }
 }

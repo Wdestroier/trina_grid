@@ -283,6 +283,9 @@ class TrinaGridStyleConfig {
     this.columnResizeIcon = Icons.code_sharp,
     this.columnAscendingIcon,
     this.columnDescendingIcon,
+    this.columnContextIconWidget,
+    this.columnAscendingIconWidget,
+    this.columnDescendingIconWidget,
     this.rowGroupExpandedIcon = Icons.keyboard_arrow_down,
     this.rowGroupCollapsedIcon = const IconData(
       0xe355,
@@ -359,6 +362,9 @@ class TrinaGridStyleConfig {
     this.columnResizeIcon = Icons.code_sharp,
     this.columnAscendingIcon,
     this.columnDescendingIcon,
+    this.columnContextIconWidget,
+    this.columnAscendingIconWidget,
+    this.columnDescendingIconWidget,
     this.rowGroupExpandedIcon = Icons.keyboard_arrow_down,
     this.rowGroupCollapsedIcon = const IconData(
       0xe355,
@@ -557,6 +563,12 @@ class TrinaGridStyleConfig {
   /// If no value is specified, the default icon is set.
   final Icon? columnDescendingIcon;
 
+  final Widget? columnContextIconWidget;
+
+  final Widget? columnAscendingIconWidget;
+
+  final Widget? columnDescendingIconWidget;
+
   /// Icon when RowGroup is expanded.
   final IconData rowGroupExpandedIcon;
 
@@ -629,6 +641,9 @@ class TrinaGridStyleConfig {
     IconData? columnResizeIcon,
     TrinaOptional<Icon?>? columnAscendingIcon,
     TrinaOptional<Icon?>? columnDescendingIcon,
+    Widget? columnContextIconWidget,
+    Widget? columnAscendingIconWidget,
+    Widget? columnDescendingIconWidget,
     IconData? rowGroupExpandedIcon,
     IconData? rowGroupCollapsedIcon,
     IconData? rowGroupEmptyIcon,
@@ -703,6 +718,12 @@ class TrinaGridStyleConfig {
       columnDescendingIcon: columnDescendingIcon == null
           ? this.columnDescendingIcon
           : columnDescendingIcon.value,
+      columnContextIconWidget:
+          columnContextIconWidget ?? this.columnContextIconWidget,
+      columnAscendingIconWidget:
+          columnAscendingIconWidget ?? this.columnAscendingIconWidget,
+      columnDescendingIconWidget:
+          columnDescendingIconWidget ?? this.columnDescendingIconWidget,
       rowGroupExpandedIcon: rowGroupExpandedIcon ?? this.rowGroupExpandedIcon,
       rowGroupCollapsedIcon:
           rowGroupCollapsedIcon ?? this.rowGroupCollapsedIcon,
@@ -768,6 +789,9 @@ class TrinaGridStyleConfig {
             columnResizeIcon == other.columnResizeIcon &&
             columnAscendingIcon == other.columnAscendingIcon &&
             columnDescendingIcon == other.columnDescendingIcon &&
+            columnContextIconWidget == other.columnContextIconWidget &&
+            columnAscendingIconWidget == other.columnAscendingIconWidget &&
+            columnDescendingIconWidget == other.columnDescendingIconWidget &&
             rowGroupExpandedIcon == other.rowGroupExpandedIcon &&
             rowGroupCollapsedIcon == other.rowGroupCollapsedIcon &&
             rowGroupEmptyIcon == other.rowGroupEmptyIcon &&
@@ -823,6 +847,9 @@ class TrinaGridStyleConfig {
         columnResizeIcon,
         columnAscendingIcon,
         columnDescendingIcon,
+        columnContextIconWidget,
+        columnAscendingIconWidget,
+        columnDescendingIconWidget,
         rowGroupExpandedIcon,
         rowGroupCollapsedIcon,
         rowGroupEmptyIcon,
