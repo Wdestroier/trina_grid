@@ -8,6 +8,14 @@ import 'package:trina_grid/trina_grid.dart';
 bool get _isTestEnvironment =>
     WidgetsBinding.instance.toString().contains('TestWidgetsFlutterBinding');
 
+// Mirror the clamp used by the rendered thumb so position, hit-testing and
+// drag math all share the same effective size as the visible rectangle.
+double _effectiveThumbExtent(double proportional, double track, double minLen) {
+  if (proportional.isNaN) return track;
+  final double effectiveMin = minLen > track ? track : minLen;
+  return proportional.clamp(effectiveMin, track);
+}
+
 class TrinaVerticalScrollBar extends StatefulWidget {
   const TrinaVerticalScrollBar({
     super.key,
@@ -220,9 +228,12 @@ class _TrinaVerticalScrollBarState extends State<TrinaVerticalScrollBar>
               return ValueListenableBuilder<double>(
                 valueListenable: widget.verticalViewportExtentNotifier,
                 builder: (context, viewportExtent, _) {
-                  final double thumbHeight =
-                      (viewportExtent / (viewportExtent + scrollExtent)) *
-                          widget.height;
+                  final double thumbHeight = _effectiveThumbExtent(
+                    (viewportExtent / (viewportExtent + scrollExtent)) *
+                        widget.height,
+                    widget.height,
+                    scrollConfig.minThumbLength,
+                  );
 
                   return ValueListenableBuilder<double>(
                     valueListenable: widget.verticalScrollOffsetNotifier,
@@ -256,15 +267,7 @@ class _TrinaVerticalScrollBarState extends State<TrinaVerticalScrollBar>
                             if (scrollConfig.thumbVisible)
                               Positioned(
                                 top: thumbPosition.isNaN ? 0 : thumbPosition,
-                                height: thumbHeight.isNaN
-                                    ? widget.height
-                                    : thumbHeight.clamp(
-                                        scrollConfig.minThumbLength >
-                                                widget.height
-                                            ? widget.height
-                                            : scrollConfig.minThumbLength,
-                                        widget.height,
-                                      ),
+                                height: thumbHeight,
                                 width: scrollConfig.thickness,
                                 left: widget.stateManager.isRTL ? 2 : null,
                                 right: widget.stateManager.isRTL ? null : 2,
